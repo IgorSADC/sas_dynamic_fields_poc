@@ -1,0 +1,37 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+Person(user, "user")
+
+Container_Boundary(c1, "Person System") {
+
+Component(configuration, "Configuration", "Configure custom fields with OPTIONAL/REQUIRED rules on a template")
+Component(crudPerson, "CRUD Person","CRUD person based on the template")
+
+}
+
+Container_Boundary(templating, "Template Engine"){
+    Component(validation, "Templating Engine Validation", "Validates the request over a template")
+    Component(templateRegistration, "Template Engine Registration", "Configure custom fields with OPTIONAL/REQUIRED rules on a template")
+    Component(templateConfiguration, "Template Engine Configuration", "Stores active/inactivate templates")
+
+}
+
+System(templateDB, "Template DB provider")
+System(persistance, "Persistance provider")
+
+
+Rel(user, crudPerson, "CRUD Person")
+Rel(crudPerson, validation, "Request for template validation")
+Rel(crudPerson, persistance, "Stores templated person")
+
+
+Rel(configuration, templateRegistration, "Register new template")
+Rel(configuration, templateConfiguration, "Manages Active/Deactive template")
+
+
+Rel(templateRegistration,templateDB , "Stores templating metadata")
+Rel(templateConfiguration,templateDB , "Stores templating metadata")
+
+@enduml
