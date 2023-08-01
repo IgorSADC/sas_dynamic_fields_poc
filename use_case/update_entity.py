@@ -10,10 +10,11 @@ class UpdateEntityOf:
         self.template_repository = template_repository
         self.template_validator = template_validator
     
-    def run(self,values : List[DynamicValue], template_id: str):
+    def run(self, values : List[DynamicValue], template_id: str):
         template = self.template_repository.get_template_by_id(template_id)
         
         id_field = None
+        if not template.id_field : raise Exception()
         for v in values:
             if v.name == template.id_field.name:
                 id_field = v
@@ -23,15 +24,12 @@ class UpdateEntityOf:
             raise Exception("There's no way to identify the entity")
         values.remove(id_field)
             
-        print("validating template")
         validator_output = self.template_validator.validate_template_update(values, template)
         
-        print(validator_output)
         if validator_output:
             self.template_repository.update_entity_of(template, id_field, values)
             return True
         
-        print("error, template was not validated")
         raise Exception("Cannot create entity")
  
  

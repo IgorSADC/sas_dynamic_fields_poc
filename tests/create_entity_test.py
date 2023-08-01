@@ -149,7 +149,7 @@ def test_can_pass_optional_fields():
     )
 
     person_template = DynamicTemplate(
-         'person_template',
+        'person_template',
         'MainPersonTemplate',
         'person_template',
         [name_filed, last_name_field]
@@ -212,7 +212,7 @@ def test_cant_pass_an_invalid_optional_fields():
         )
 
 
-def test_cannot_pass_fake_field():
+def test_cannot_pass_nonexistent_field():
     name_filed = DynamicField(
         'name',
         DynamicFieldSignature(True, True),
@@ -226,7 +226,7 @@ def test_cannot_pass_fake_field():
     )
 
     person_template = DynamicTemplate(
-         'person_template',
+        'person_template',
         'MainPersonTemplate',
         'person_template',
         [name_filed, last_name_field]

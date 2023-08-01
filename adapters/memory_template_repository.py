@@ -52,6 +52,7 @@ class MemoryTemplateRepository(TemplateRepository):
             if attribute.validator:
                 json_schema['properties'][attribute.name][attribute.validator.validator_type] = attribute.validator.value
             
+        print(required_fields)
             
         if dynamic_template.id_field: 
             attribute = dynamic_template.id_field
@@ -60,7 +61,7 @@ class MemoryTemplateRepository(TemplateRepository):
             
             if attribute.validator:
                 json_schema['properties'][attribute.name][attribute.validator.validator_type] = attribute.validator.value
-            
+        
         json_schema['required'] = required_fields
         return json_schema
         
@@ -71,10 +72,11 @@ class MemoryTemplateRepository(TemplateRepository):
             fields.append(template.id_field.name)
         
         return {f: entity[f] for f in entity if f in fields}
+    
     def read_entity_of(self, template: DynamicTemplate):
         matches = []
         schema = self.__build_read_schema(template)
-        print(schema)
+        print(f'read schema {schema}')
         
         for entity in self.entities[template.name]:
             try: 

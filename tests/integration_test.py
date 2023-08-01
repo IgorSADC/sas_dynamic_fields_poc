@@ -18,7 +18,7 @@ name_filed = DynamicField(
 
 like_pie_field = DynamicField(
         'like_pie',
-        DynamicFieldSignature(frozen= False, required= False),
+        DynamicFieldSignature(frozen = False, required= False),
         None
     )
 
@@ -26,8 +26,8 @@ person_template = DynamicTemplate(
         'person_template',
         'PersonCollection',
         'Person', 
-        [ like_pie_field],
-        id_field= name_filed
+        [like_pie_field],
+        id_field = name_filed
     )
 json_validator = ValidatorJsonSchema()
 
@@ -47,7 +47,7 @@ def test_can_create_entity_of_template():
     )
 
 def test_can_query_entity_of(): 
-    entities  = template_repo.read_entity_of(person_template)
+    entities  = template_repo.read_entity_of(person_template) # {name : ''}
     assert len(entities) == 1
     assert entities[0]['name'] == 'Igor'  
     
@@ -74,11 +74,13 @@ def test_the_value_really_updated():
 def test_can_query_only_templated_fields():
     pielover_template = DynamicTemplate('pielover',
         'PersonCollection',
-        'PieS3', 
+        'PieS3',
         [ like_pie_field],
     )
     
     entities = template_repo.read_entity_of(pielover_template)
     assert len(entities) == 1
     assert entities[0]['like_pie'] == 'Yes, he sure does!'
+    with pytest.raises(Exception):
+        entities[0]['name']
      

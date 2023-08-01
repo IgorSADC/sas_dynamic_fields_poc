@@ -10,7 +10,7 @@ class ValidatorJsonSchema(TemplateValidatorRepository):
     
     def __build_write_schema_from_dynamic_template(self, dynamic_template : DynamicTemplate): 
         required_fields = []
-        json_schema = { 'properties' : {}, 'type': 'object', 'additionalProperties' :False}
+        json_schema = { 'properties' : {}, 'type': 'object', 'additionalProperties': False}
         
         for attribute in dynamic_template.attributes: 
             if attribute.signature.required: required_fields.append(attribute.name)
@@ -38,7 +38,6 @@ class ValidatorJsonSchema(TemplateValidatorRepository):
     
     
     def validate_template_write(self,json_data : List[DynamicValue], template: DynamicTemplate):
-        print('BUILDING JSON SCHEMA') 
         validator  = self.__build_write_schema_from_dynamic_template(template)
         try: 
             validate(validator, self.__build_dict_from_dynamic_value( json_data))

@@ -11,15 +11,11 @@ class CreateEntityOf:
         self.template_validator = template_validator
     
     def run(self,values : List[DynamicValue], template_id: str):
-        template = self.template_repository.get_template_by_id(template_id)
+        template = self.template_repository.get_template_by_id(template_id)    
+        validator_output = self.template_validator.validate_template_write(values, template) # Validating business rules
         
-        print("validating template")
-        validator_output = self.template_validator.validate_template_write(values, template)
-        
-        print(validator_output)
         if validator_output:
             self.template_repository.save_entity_of(template, values)
             return True
         
-        print("error, template was not validated")
         raise Exception("Cannot create entity")
