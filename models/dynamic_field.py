@@ -1,4 +1,4 @@
-from typing import Callable, Generic, TypeVar
+from typing import Callable, Generic, Optional, TypeVar
 from attr import dataclass
 
 
@@ -13,12 +13,13 @@ class DynamicFieldSignature:
     required : bool
 
 @dataclass
-class Validator: 
-    is_valid: Callable[[str],bool ]     
+class FieldValidator: 
+    validator_type : str
+    value : str
 
 @dataclass
 class DynamicField:
     name : str
     signature: DynamicFieldSignature
-    validator: Validator 
+    validator: Optional[FieldValidator]
     
